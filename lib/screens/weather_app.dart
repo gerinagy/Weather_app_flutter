@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:weather_app/models/weather_locations.dart';
 import 'package:weather_app/widgets/single_weather.dart';
+import 'package:weather_app/widgets/slider_dot.dart';
 
 class WeatherApp extends StatefulWidget {
   const WeatherApp({Key? key}) : super(key: key);
@@ -11,8 +12,27 @@ class WeatherApp extends StatefulWidget {
 }
 
 class _WeatherAppState extends State<WeatherApp> {
+  int _currentPage = 0;
+  late String bgImg;
+
+  _onPageChanged(int index) {
+    setState(() {
+      _currentPage = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (locationList[_currentPage].weatherType == 'Sunny') {
+      bgImg = 'assets/sunny.jpg';
+    } else if (locationList[_currentPage].weatherType == 'Night') {
+      bgImg = 'assets/night.jpg';
+    } else if (locationList[_currentPage].weatherType == 'Rainy') {
+      bgImg = 'assets/rainy.jpg';
+    } else if (locationList[_currentPage].weatherType == 'Cloudy') {
+      bgImg = 'assets/cloudy.jpeg';
+    }
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -50,7 +70,7 @@ class _WeatherAppState extends State<WeatherApp> {
         child: Stack(
           children: [
             Image.asset(
-              'assets/night.jpg',
+              bgImg,
               fit: BoxFit.cover,
               width: double.infinity,
               height: double.infinity,
@@ -67,76 +87,17 @@ class _WeatherAppState extends State<WeatherApp> {
               ),
               child: Row(
                 children: [
-                  Container(
-                    width: 12,
-                    height: 5,
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 5,
-                    ),
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(5),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: 5,
-                    height: 5,
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 5,
-                    ),
-                    decoration: const BoxDecoration(
-                      color: Colors.white54,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(5),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: 5,
-                    height: 5,
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 5,
-                    ),
-                    decoration: const BoxDecoration(
-                      color: Colors.white54,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(5),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: 5,
-                    height: 5,
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 5,
-                    ),
-                    decoration: const BoxDecoration(
-                      color: Colors.white54,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(5),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: 5,
-                    height: 5,
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 5,
-                    ),
-                    decoration: const BoxDecoration(
-                      color: Colors.white54,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(5),
-                      ),
-                    ),
-                  ),
+                  for (int i = 0; i < locationList.length; i++)
+                    if (i == _currentPage)
+                      const SliderDot(isActive: true)
+                    else
+                      const SliderDot(isActive: false)
                 ],
               ),
             ),
             PageView.builder(
               scrollDirection: Axis.horizontal,
+              onPageChanged: _onPageChanged,
               itemCount: locationList.length,
               itemBuilder: (context, i) =>
                   SingleWeather(key: UniqueKey(), index: i),

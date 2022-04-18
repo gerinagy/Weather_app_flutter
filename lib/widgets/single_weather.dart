@@ -136,7 +136,7 @@ class SingleWeather extends StatelessWidget {
                             ),
                             Container(
                               height: 5,
-                              width: 5,
+                              width: locationList[index].wind / 2,
                               color: Colors.greenAccent,
                             ),
                           ],
@@ -178,8 +178,8 @@ class SingleWeather extends StatelessWidget {
                             ),
                             Container(
                               height: 5,
-                              width: 5,
-                              color: Colors.redAccent,
+                              width: locationList[index].rain / 2,
+                              color: Colors.blueAccent,
                             ),
                           ],
                         ),
@@ -219,7 +219,9 @@ class SingleWeather extends StatelessWidget {
                               color: Colors.white38,
                             ),
                             Container(
-                                height: 5, width: 5, color: Colors.redAccent),
+                                height: 5,
+                                width: locationList[index].humidity / 2,
+                                color: Colors.redAccent),
                           ],
                         ),
                       ],

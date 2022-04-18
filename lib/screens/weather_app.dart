@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:weather_app/models/weather_locations.dart';
+import 'package:weather_app/widgets/buildin_transform.dart';
 import 'package:weather_app/widgets/single_weather.dart';
 import 'package:weather_app/widgets/slider_dot.dart';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:transformer_page_view/transformer_page_view.dart';
 
 class WeatherApp extends StatefulWidget {
   const WeatherApp({Key? key}) : super(key: key);
@@ -95,8 +98,10 @@ class _WeatherAppState extends State<WeatherApp> {
                 ],
               ),
             ),
-            PageView.builder(
+            TransformerPageView(
               scrollDirection: Axis.horizontal,
+              transformer: ScaleAndFadeTransformer(),
+              viewportFraction: 0.8,
               onPageChanged: _onPageChanged,
               itemCount: locationList.length,
               itemBuilder: (context, i) =>
